@@ -1,16 +1,29 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { RouterLink, RouterView } from 'vue-router';
-  const selectedItem = ref(null);
+  import { ref } from "vue";
+  import { RouterLink, RouterView } from "vue-router";
+  const selectedItem = ref({});
   const menuItems = ref([
-    { title: 'Churches' },
-    { title: 'Venues' },
-    { title: 'CulturalAssets' },
-    { title: 'temples' },
+    { title: "Churches" },
+    { title: "Venues" },
+    { title: "CulturalAssets" },
+    { title: "temples" },
   ]);
 
-  const onMenuClick = (item) => {
+  const onMenuClick = (item: Object) => {
     selectedItem.value = item;
+  };
+  const onSearchBluetooth = async () => {
+    navigator.bluetooth
+      .requestDevice({
+        acceptAllDevices: true,
+        optionalServices: ["battery_service"], // 可用來讀取 BLE 服務
+      })
+      .then((device: any) => {
+        console.log(device.name);
+      })
+      .catch((error: any) => {
+        console.error("藍牙配對失敗");
+      });
   };
 </script>
 
@@ -40,6 +53,9 @@
             >
           </v-list>
         </v-menu>
+        <v-btn type="button" color="secondary" class="ml-2" @click="onSearchBluetooth"
+          >搜尋藍牙設備</v-btn
+        >
       </nav>
     </header>
     <v-main class="bg-grey-lighten-2">
