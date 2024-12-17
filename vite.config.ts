@@ -21,16 +21,16 @@ export default defineConfig({
         short_name: "PWA_Testing",
         description: "To test whether Web PWA can get beacon signals",
         // for deploy to gh-pages
-        start_url: "/vue-pwa/",
+        start_url: "/VueRouter/",
         theme_color: "#ffffff",
         icons: [
-          { src: "/vue-pwa/icons/pwa_192x192.png", sizes: "192x192", type: "image/png" },
-          { src: "/vue-pwa/icons/pwa_512x512.png", sizes: "512x512", type: "image/png" },
+          { src: "/VueRouter/icons/pwa_192x192.png", sizes: "192x192", type: "image/png" },
+          { src: "/VueRouter/icons/pwa_512x512.png", sizes: "512x512", type: "image/png" },
         ],
       },
     }),
   ],
-  base: "/vue-pwa/",
+  base: "/VueRouter/",
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
