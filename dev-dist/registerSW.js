@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/vue-pwa/dev-sw.js?dev-sw', { scope: '/vue-pwa/', type: 'classic' })
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/VueRouter/dev-sw.js?dev-sw', { scope: '/VueRouter/', type: 'classic' })
