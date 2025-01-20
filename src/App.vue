@@ -31,15 +31,18 @@
       const audioOutputs = devices.filter((device) => device.kind === "audiooutput");
       console.log("devices", devices);
       console.log("audioOutputs", audioOutputs);
+
       if (audioOutputs.length > 0) {
-        let outputNames = audioOutputs
-          .map((device) => {
-            return device.label || "Unknown Device";
-          })
-          .join("; ");
-        audioStatus.value = `Audio Outputs: ${outputNames}`;
+        let audioOutputsString = JSON.stringify({ audioOutputs: audioOutputs });
+        audioStatus.value = audioOutputsString;
+        // let outputNames = audioOutputs
+        //   .map((device) => {
+        //     return device.label || "Unknown Device";
+        //   })
+        //   .join("; ");
+        // audioStatus.value = `Audio Outputs: ${outputNames}`;
       } else {
-        audioStatus.value = "No audio output devices detected.";
+        audioStatus.value = "audioOutputs 陣列長度不大於 0";
       }
     } catch (err) {
       console.error(err);
@@ -145,7 +148,7 @@
         <!-- location 為 menu 展開時會往哪邊長 -->
         <v-menu location="bottom">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="primary" class="ml-2">Dropdown</v-btn>
+            <v-btn v-bind="props" color="primary" class="ma-2">Dropdown</v-btn>
           </template>
           <v-list>
             <!-- 給了 :value 才會有 cursor: point; -->
@@ -158,19 +161,19 @@
             >
           </v-list>
         </v-menu>
-        <v-btn type="button" color="secondary" class="ml-2" @click="onSearchBluetooth"
+        <v-btn type="button" color="secondary" class="ma-2" @click="onSearchBluetooth"
           >搜尋藍牙設備</v-btn
         >
-        <v-btn class="ml-2" type="button" @click="startGeofencing">啟用地理位置檢測</v-btn>
-        <v-btn class="ml-2" type="button" @click="requestPermission">啟用推播通知</v-btn>
-        <v-btn class="ml-2" type="button" @click="playAudio">播放多媒體</v-btn>
-        <div class="my-3">
+        <v-btn class="ma-2" type="button" @click="startGeofencing">啟用地理位置檢測</v-btn>
+        <v-btn class="ma-2" type="button" @click="requestPermission">啟用推播通知</v-btn>
+        <v-btn class="ma-2" type="button" @click="playAudio">播放多媒體</v-btn>
+        <div class="ma-2">
           <audio controls>
             <source src="@/assets/audio_6s.mp3" type="audio/mp3" />
             Your browser does not support the audio element.
           </audio>
         </div>
-        <div class="my-3">{{ audioStatus }}</div>
+        <div class="ma-2">{{ audioStatus }}</div>
       </nav>
     </header>
     <v-main class="bg-grey-lighten-2">
