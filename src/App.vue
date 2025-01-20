@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from "vue";
+  import { onMounted, onBeforeUnmount, ref } from "vue";
   import { RouterLink, RouterView } from "vue-router";
   import { requestNotificationPermission } from "@/firebase";
 
@@ -17,6 +17,33 @@
 
   const requestPermission = () => {
     requestNotificationPermission();
+  };
+
+  const audioStatus = ref("");
+  const playAudio = async () => {
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (err) {
+      console.error("audio permission denied", err);
+    }
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const audioOutputs = devices.filter((device) => device.kind === "audiooutput");
+      console.log("devices", devices);
+      console.log("audioOutputs", audioOutputs);
+      if (audioOutputs.length > 0) {
+        let outputNames = audioOutputs
+          .map((device) => {
+            return device.label || "Unknown Device";
+          })
+          .join("; ");
+        audioStatus.value = `Audio Outputs: ${outputNames}`;
+      } else {
+        audioStatus.value = "No audio output devices detected.";
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const startGeofencing = () => {
@@ -87,6 +114,21 @@
         console.error("藍牙配對失敗");
       });
   };
+
+  function deviceChangeHandler() {
+    alert("設備變化");
+    // if (currentDevice ==='非耳機'){
+    //   alert('停止播放');
+    // }
+  }
+
+  onMounted(() => {
+    navigator.mediaDevices.addEventListener("devicechange", deviceChangeHandler);
+  });
+
+  onBeforeUnmount(() => {
+    navigator.mediaDevices.removeEventListener("devicechange", deviceChangeHandler);
+  });
 </script>
 
 <template>
@@ -121,6 +163,14 @@
         >
         <v-btn class="ml-2" type="button" @click="startGeofencing">啟用地理位置檢測</v-btn>
         <v-btn class="ml-2" type="button" @click="requestPermission">啟用推播通知</v-btn>
+        <v-btn class="ml-2" type="button" @click="playAudio">播放多媒體</v-btn>
+        <div class="my-3">
+          <audio controls>
+            <source src="@/assets/audio_6s.mp3" type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="my-3">{{ audioStatus }}</div>
       </nav>
     </header>
     <v-main class="bg-grey-lighten-2">
