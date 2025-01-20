@@ -20,6 +20,7 @@
   };
 
   const audioStatus = ref("");
+  const allDevices = ref("");
   const playAudio = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -28,6 +29,7 @@
     }
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
+      allDevices.value = JSON.stringify({ devices: devices });
       const audioOutputs = devices.filter((device) => device.kind === "audiooutput");
       console.log("devices", devices);
       console.log("audioOutputs", audioOutputs);
@@ -173,6 +175,7 @@
             Your browser does not support the audio element.
           </audio>
         </div>
+        <div class="ma-2">{{ allDevices }}</div>
         <div class="ma-2">{{ audioStatus }}</div>
       </nav>
     </header>
