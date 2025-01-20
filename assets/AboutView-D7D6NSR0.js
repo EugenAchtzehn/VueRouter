@@ -1,1 +1,0 @@
-import{_ as o,c as t,a as s,o as a}from"./index-ez55S1FH.js";const c={},n={class:"about"};function r(_,e){return a(),t("div",n,e[0]||(e[0]=[s("h1",null,"AboutView",-1)]))}const l=o(c,[["render",r]]);export{l as default};
